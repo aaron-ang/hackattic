@@ -10,6 +10,20 @@ from utils import *
 DB_NAME = "hackattic"
 
 
+def main():
+    challenge = Path(__file__).stem
+    res_json = get_challenge(challenge)
+    dump_base64 = str(res_json["dump"])
+    dump_bytes = unzip_dump(dump_base64)
+    create_db()
+    restore_dump(dump_bytes)
+    ssns = get_alive_ssns()
+    print(ssns)
+    res = submit_solution(challenge, solution={"alive_ssns": ssns})
+    print(res)
+    drop_db()
+
+
 def unzip_dump(dump_base64: str):
     dump_bytes = base64.b64decode(dump_base64)
     dump_bytes = zlib.decompress(dump_bytes, 15 + 32)
@@ -42,9 +56,9 @@ def drop_db():
         process = subprocess.run(
             ["dropdb", "-f", DB_NAME],
         )
+        assert process.returncode == 0
     except Exception as e:
         print(e)
-    assert process.returncode == 0
 
 
 def restore_dump(dump: bytes):
@@ -67,20 +81,6 @@ def get_alive_ssns():
             res = [row[0] for row in cur.fetchall()]
             conn.commit()
     return res
-
-
-def main():
-    challenge = Path(__file__).stem
-    res_json = get_challenge(challenge)
-    dump_base64 = str(res_json["dump"])
-    dump_bytes = unzip_dump(dump_base64)
-    create_db()
-    restore_dump(dump_bytes)
-    ssns = get_alive_ssns()
-    print(ssns)
-    res = submit_solution(challenge, solution={"alive_ssns": ssns})
-    print(res)
-    drop_db()
 
 
 if __name__ == "__main__":
