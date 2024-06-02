@@ -1,0 +1,12 @@
+python-dotenv
+flask
+jwt
+ngrok
+numpy
+opencv-python
+pendulum
+pillow
+psycopg
+pycountry
+scrypt
+websockets
