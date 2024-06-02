@@ -31,7 +31,6 @@ async def main(token):
                 await websocket.send(str(interval_ms))
 
             elif message.startswith("congratulations!"):
-                # extract secret key from message: congratulations! the solution to this challenge is "lucky sound mute wood red king"
                 secret_key = re.search(r'"([^"]*)"', message).group(1)
                 print(f"Secret key: {secret_key}")
                 res = submit_solution(challenge, {"secret": secret_key})
