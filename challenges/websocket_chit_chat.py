@@ -7,13 +7,12 @@ import re
 from utils import *
 
 
-challenge = Path(__file__).stem
-res_json = get_challenge(challenge)
-token = res_json["token"]
-
-
 async def main(token):
+    challenge = Path(__file__).stem
+    res_json = get_challenge(challenge)
+    token = res_json["token"]
     uri = f"wss://hackattic.com/_/ws/{token}"
+
     async for websocket in connect(uri):
         interval_start = pendulum.now()
         print("Opened new connection")
@@ -48,4 +47,4 @@ def get_nearest_interval(interval_ms):
 
 
 if __name__ == "__main__":
-    asyncio.run(main(token))
+    asyncio.run(main())

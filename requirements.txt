@@ -1,5 +1,5 @@
-python-dotenv
 flask
+GitPython
 jwt
 ngrok
 numpy
@@ -8,5 +8,6 @@ pendulum
 pillow
 psycopg
 pycountry
+python-dotenv
 scrypt
 websockets
