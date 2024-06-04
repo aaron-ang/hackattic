@@ -1,6 +1,6 @@
 import Data.List
 
--- `group` splits a string into a list of substrings such that each contains only equal elements
+-- `group` splits a string into a list of substrings such that each substring contains only equal elements
 -- `concatMap` applies the compressGroup function to each substring and concatenates the results
 
 compress :: String -> String
