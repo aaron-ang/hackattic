@@ -1,11 +1,11 @@
 import Data.List
 
 solveOpenParens :: String -> String
-solveOpenParens = go 0
+solveOpenParens = go 0 -- count of open parentheses
   where
-    go 0 [] = "yes" -- empty string
-    go _ [] = "no" -- no more input
-    go n (x : xs) -- n is the number of open parentheses, x is the current character, xs is the rest of the input
+    go 0 [] = "yes" -- empty string and no open parentheses
+    go _ [] = "no" -- empty string with some open parentheses
+    go n (x : xs) -- n = no. of open parentheses, x = current character, xs = rest of input
       | n < 0 = "no"
       | x == '(' = go (n + 1) xs
       | x == ')' = go (n - 1) xs
