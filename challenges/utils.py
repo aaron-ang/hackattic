@@ -18,7 +18,7 @@ def get_challenge(name: str) -> dict:
 
 def submit_solution(name: str, solution: dict):
     r = requests.post(
-        f"https://hackattic.com/challenges/{name}/solve?access_token={ACCESS_TOKEN}",
+        f"https://hackattic.com/challenges/{name}/solve?access_token={ACCESS_TOKEN}&playground=1",
         json=solution,
     )
     r.raise_for_status()
