@@ -7,7 +7,7 @@ import re
 from utils import *
 
 
-async def main(token):
+async def main():
     challenge = Path(__file__).stem
     res_json = get_challenge(challenge)
     token = res_json["token"]
@@ -30,7 +30,7 @@ async def main(token):
                 await websocket.send(str(interval_ms))
 
             elif message.startswith("congratulations!"):
-                secret_key = re.search(r'"([^"]*)"', message).group(1)
+                secret_key = re.search(r'"(.*?)"', message).group(1)
                 print(f"Secret key: {secret_key}")
                 res = submit_solution(challenge, {"secret": secret_key})
                 print(res)

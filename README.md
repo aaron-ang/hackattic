@@ -32,7 +32,7 @@ python3 challenges/<challenge>.py
 - [ ] [A global presence](challenges/a_global_presence.py)
 - [x] [Collision course](challenges/collision_course/collision_course.py)
 - [x] [Backup restore](challenges/backup_restore.py)
-- [ ] [Basic face detection](challenges/basic_face_detection.py)
+- [x] [Basic face detection](challenges/basic_face_detection.py)
 - [x] [Brute force zip](challenges/brute_force_zip.py)
 - [ ] [Dockerized solutions](challenges/dockerized_solutions.py)
 - [x] [Help me unpack](challenges/help_me_unpack.py)
