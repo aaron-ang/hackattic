@@ -8,6 +8,7 @@ pendulum
 pillow
 psycopg
 pycountry
+pytesseract
 python-dotenv
 scrypt
 websockets

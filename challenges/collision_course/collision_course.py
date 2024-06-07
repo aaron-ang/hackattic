@@ -4,9 +4,7 @@ import subprocess
 import base64
 
 FILE_DIR = Path(__file__).parent
-
 sys.path.append(FILE_DIR.parent.as_posix())
-print(sys.path)
 
 from utils import *
 
