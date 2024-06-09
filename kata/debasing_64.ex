@@ -9,5 +9,5 @@ end
 
 inputs = IO.stream(:stdio, :line) |> Stream.map(&String.trim/1)
 inputs
-|> Stream.each(&(IO.inspect(Base64Helper.decode_base64(&1))))
+|> Stream.each(&(IO.puts(Base64Helper.decode_base64(&1))))
 |> Stream.run()
