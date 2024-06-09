@@ -1,3 +1,4 @@
 [submodule "challenges/collision_course/hashclash"]
 	path = challenges/collision_course/hashclash
-	url = https://github.com/aaron-ang/hashclash.git
+	url = https://github.com/cr-marcstevens/hashclash
+	ignore = dirty

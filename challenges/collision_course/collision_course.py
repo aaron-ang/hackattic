@@ -8,7 +8,8 @@ sys.path.append(FILE_DIR.parent.as_posix())
 
 from utils import *
 
-FASTCOLL_PATH = FILE_DIR / "hashclash" / "bin" / "md5_fastcoll"
+HASHCLASH_PATH = FILE_DIR / "hashclash"
+FASTCOLL_PATH = HASHCLASH_PATH / "bin" / "md5_fastcoll"
 
 
 def main():
@@ -19,6 +20,15 @@ def main():
 
     with open(FILE_DIR / "input", "w") as f:
         f.write(prefix)
+
+    if not HASHCLASH_PATH.exists():
+        subprocess.run(["git", "submodule", "update", "--init", "--recursive"])
+
+    if not FASTCOLL_PATH.exists():
+        # If this fails, go to build.sh
+        #   set : ${BOOST_VERSION:=<your local boost version>}
+        #   set : ${BOOST_INSTALL_PREFIX:=<your boost path, e.g. /opt/homebrew/Cellar/boost/$BOOST_VERSION>}
+        subprocess.run([f"cd {HASHCLASH_PATH} && ./build.sh"], shell=True, check=True)
 
     subprocess.run(
         [
