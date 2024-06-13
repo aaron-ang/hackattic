@@ -1,11 +1,13 @@
+import wave
+import pyaudio
+import numpy as np
+from io import BytesIO
 from pathlib import Path
 from scipy.io import wavfile
-from io import BytesIO
-import numpy as np
 
 from utils import *
 
-dtmf = {
+DTMF = {
     (697, 1209): "1",
     (697, 1336): "2",
     (697, 1477): "3",
@@ -21,34 +23,49 @@ dtmf = {
 }
 
 
+def play_wav(data: bytes):
+    with wave.open(BytesIO(data), "rb") as wf:
+        p = pyaudio.PyAudio()
+        stream = p.open(
+            format=p.get_format_from_width(wf.getsampwidth()),
+            channels=wf.getnchannels(),
+            rate=wf.getframerate(),
+            output=True,
+        )
+        while len(data := wf.readframes(1024)):
+            stream.write(data)
+        stream.close()
+        p.terminate()
+
+
 def main():
     challenge = Path(__file__).stem
     res_json = get_challenge(challenge)
     wav_url = res_json["wav_url"]
 
     b = requests.get(wav_url).content
+    play_wav(b)
+
+    rate: int
+    data: np.ndarray
     rate, data = wavfile.read(BytesIO(b))
-
-    if len(data.shape) == 2:  # stereo
-        data = data.sum(axis=1)
-
-    precision = 0.075
     duration = len(data) / rate
-    step = int(len(data) // (duration // precision))
+    interval = 0.06
+    step = int(len(data) // (duration // interval))
 
     sequence = ""
-    c = ""
+    current = ""
 
     for i in range(0, len(data) - step, step):
         signal = data[i : i + step]
         frequencies = np.fft.fftfreq(signal.size, d=(1 / rate))
-        amplitudes = np.fft.fft(signal)
+        fourier = np.fft.fft(signal)
 
         # Low
         i_min = np.where(frequencies > 0)[0][0]
         i_max = np.where(frequencies > 1050)[0][0]
         freq = frequencies[i_min:i_max]
-        amp = abs(amplitudes.real[i_min:i_max])
+        amp = abs(fourier.real[i_min:i_max])
         lf = freq[np.where(amp == max(amp))[0][0]]
         delta = 20
         best = 0
@@ -61,9 +78,9 @@ def main():
 
         # High
         i_min = np.where(frequencies > 1100)[0][0]
-        i_max = np.where(frequencies > 1970)[0][0]
+        i_max = np.where(frequencies > 1600)[0][0]
         freq = frequencies[i_min:i_max]
-        amp = abs(amplitudes.real[i_min:i_max])
+        amp = abs(fourier.real[i_min:i_max])
         hf = freq[np.where(amp == max(amp))[0][0]]
         delta = 20
         best = 0
@@ -75,13 +92,13 @@ def main():
         hf = best
 
         if lf == 0 or hf == 0:
-            c = ""
-        elif dtmf[(lf, hf)] != c:
-            c = dtmf[(lf, hf)]
-            sequence += c
+            current = ""
+        elif DTMF[(lf, hf)] != current:
+            current = DTMF[(lf, hf)]
+            sequence += current
 
     print(sequence)
-    res = submit_solution(challenge, {"sequence": sequence})
+    res = submit_solution(challenge, {"sequence": sequence}, playground=True)
     print(res)
 
 

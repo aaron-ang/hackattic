@@ -48,8 +48,6 @@ def main():
             result *= operand
         elif operator == "÷":
             result //= operand
-        operator = ""
-        operand = 0
 
     print("Result:", result)
     res = submit_solution(challenge, {"result": result})
