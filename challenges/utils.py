@@ -16,10 +16,10 @@ def get_challenge(name: str) -> dict:
     return r.json()
 
 
-def submit_solution(name: str, solution: dict) -> dict:
-    r = requests.post(
-        f"https://hackattic.com/challenges/{name}/solve?access_token={ACCESS_TOKEN}&playground=1",
-        json=solution,
-    )
+def submit_solution(name: str, solution: dict, playground=False) -> dict:
+    url = f"https://hackattic.com/challenges/{name}/solve?access_token={ACCESS_TOKEN}"
+    if playground:
+        url += "&playground=1"
+    r = requests.post(url, json=solution)
     r.raise_for_status()
     return r.json()

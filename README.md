@@ -45,5 +45,5 @@ python3 challenges/<challenge>.py
 - [x] [Tales of SSL](challenges/tales_of_ssl.py)
 - [ ] [The one with Redis](challenges/the_redis_one.py)
 - [ ] [Touch-Tone dialing](challenges/touch_tone_dialing.py)
-- [ ] [Visual basic math](challenges/visual_basic_math.py)
+- [x] [Visual basic math](challenges/visual_basic_math.py)
 - [x] [Websocket chit chat](challenges/websocket_chit_chat.py)
