@@ -4,9 +4,11 @@ Flask
 GitPython
 ngrok
 numpy
+opencv_python
 pendulum
 Pillow
 psycopg
+PyAudio
 pycountry
 PyJWT
 python-dotenv
